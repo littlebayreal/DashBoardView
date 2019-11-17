@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 				if (i == EditorInfo.IME_ACTION_DONE) {
-                   dashBoardView.setProgress(Integer.parseInt(textView.getText().toString()));
+                   dashBoardView.setProgressWithAnim(Integer.parseInt(textView.getText().toString()));
 				}
 				return false;
 			}

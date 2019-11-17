@@ -1,5 +1,8 @@
 package com.sziti.dashboardview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -183,7 +186,8 @@ public class DashBoardView extends View {
 		mPaint.setStrokeWidth(progressWidth);
 		mPaint.setColor(Color.GREEN);
 
-
+        //画进度
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
 		drawProgress(canvas, null);
 
 //		canvas.drawLine(mViewCenterX - mRadius / 2f - dp2px(10), mCircleLeftY + mRadius + progressWidth / 2f, mCircleLeftX, mCircleLeftY + mRadius + progressWidth / 2f, mPaint);
@@ -328,7 +332,41 @@ public class DashBoardView extends View {
 		texts_index = progress;
 		postInvalidate();
 	}
+	private boolean isAnimFinish = true;
+    public void setProgressWithAnim(int progress){
+		if (progress < 0 || progress > 140 || !isAnimFinish) {
+			return;
+		}
+		ValueAnimator va = ValueAnimator.ofInt(0, progress);
+		va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				int p = (int) animation.getAnimatedValue();
+				setProgress(p);
+			}
+		});
+		va.addListener(new AnimatorListenerAdapter(){
+			@Override
+			public void onAnimationStart(Animator animation) {
+				super.onAnimationStart(animation);
+				isAnimFinish = false;
+			}
 
+			@Override
+			public void onAnimationEnd(Animator animation) {
+               super.onAnimationEnd(animation);
+               isAnimFinish = true;
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				super.onAnimationCancel(animation);
+				isAnimFinish = true;
+			}
+		});
+		va.setDuration(1200);
+		va.start();
+	}
 	private int dp2px(int dp) {
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
 			Resources.getSystem().getDisplayMetrics());
