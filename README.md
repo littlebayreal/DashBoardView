@@ -1,7 +1,7 @@
 # DashBoardView
 模仿汽车仪表盘的自定义控件
 
-![image](app/src/main/screenshot/DashBoardView.gif)
+![image](https://github.com/littlebayreal/DashBoardView/blob/master/app/src/main/screenshot/DashBoardView.gif)
 
 由于仪表盘的需求大不相同，封装称lib很难满足每个人的需求，所以大家可以在我的基础上自行开发。
 
